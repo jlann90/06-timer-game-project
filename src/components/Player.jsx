@@ -1,25 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player() {
-  const [playerName, setPlayerName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const playerName = useRef();
 
-  function handleNameChange(event) {
-    setSubmitted(false);
-    setPlayerName(event.target.value);
-  }
+  const [enteredPlayerName, setEnteredPlayerName] = useState(null);
 
   function handleSubmitClick() {
-    setSubmitted(true);
+    setEnteredPlayerName(playerName.current.value);
   }
 
   return (
     <section id="player">
-      <h2>
-        Welcome {submitted && playerName !== "" ? playerName : "unknown entity"}
-      </h2>
+      {/* Below is a shortcut to output enteredPlayerName if it's truthy, else the string "unknown entity" */}
+      <h2>Welcome {enteredPlayerName ?? "unknown entity"}</h2>
       <p>
-        <input type="text" onChange={handleNameChange} value={playerName} />
+        <input ref={playerName} type="text" />
         <button onClick={handleSubmitClick}>Set Name</button>
       </p>
     </section>
